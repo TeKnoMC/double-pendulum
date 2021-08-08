@@ -7,7 +7,7 @@ import numpy as np
 
 M1 = 1
 M2 = 1
-L1 = 0.5
+L1 = 1
 L2 = 1
 
 DT = 0.05
@@ -30,7 +30,7 @@ curve, = curve_ax.plot([], [])
 def frame_generator() -> Generator:
     p = DoublePendulum(L1, L2, M1, M2)
     y0 = np.array([np.pi / 8, np.pi / 8, 0, 0])
-    t, theta_1, theta_2 = p.numerical_solve(DT, TMAX, y0)
+    t, theta_1, theta_2 = p.numerical_solve_scipy(DT, TMAX, y0)
 
     for i in range(len(t)):
         yield (t[i], theta_1[i], theta_2[i])
@@ -81,4 +81,4 @@ def update(frame: Tuple[float, float, float], *kwargs: Tuple) -> Tuple:
 
 anim = animation.FuncAnimation(fig, update, frame_generator,
                                 init_func=init, blit=True, save_count=800)
-anim.save('output\\double.gif', writer=animation.PillowWriter(fps=int(1 / DT)))
+anim.save('output\\double-test-2.gif', writer=animation.PillowWriter(fps=int(1 / DT)))
