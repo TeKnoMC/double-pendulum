@@ -40,7 +40,6 @@ struct Vector4
         d4 = 0;
     };
 
-    
     Vector4 operator+(const Vector4 v)
     {
         return Vector4(d1 + v.d1, d2 + v.d2, d3 + v.d3, d4 + v.d4);

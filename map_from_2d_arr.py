@@ -12,6 +12,6 @@ with open("cuda\\cuda-playground\\img.txt", "r") as f:
     #print(data)
     int_data = list(map(row_map, data))
 
-plt.imshow(int_data, cmap="inferno")
+plt.imshow(int_data, cmap="bone")
 plt.axis("off")
 plt.show()
