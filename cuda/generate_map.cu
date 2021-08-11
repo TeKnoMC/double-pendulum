@@ -3,7 +3,7 @@
 #include <string>
 #include <cmath>
 
-#define IMAGE_DIMENSION 500
+#define IMAGE_DIMENSION 1000
 #define G 9.81
 #define PI 3.14159265358979323846
 
@@ -19,7 +19,6 @@ void write2dArrayToFile(int arr[IMAGE_DIMENSION][IMAGE_DIMENSION], std::string f
         }
         arrayFile << ';';
     }
-    
 }
 
 struct Vector4
@@ -50,6 +49,16 @@ struct Vector4
     Vector4 operator*(const double d)
     {
         return Vector4(d1 * d, d2 * d, d3 * d, d4 * d);
+    };
+};
+
+struct Coordinate
+{
+    double x, y;
+    Coordinate(double xin, double yin)
+    {
+        x = xin;
+        y = yin;
     };
 };
 
@@ -141,16 +150,6 @@ int getChaosRating(Vector4 y0, double *args)
     return arrLength;
 }
 
-struct Coordinate
-{
-    double x, y;
-    Coordinate(double xin, double yin)
-    {
-        x = xin;
-        y = yin;
-    };
-};
-
 Coordinate mapIdxToRange(int i, int j, double xmin, double xmax,
                             double ymin, double ymax, int length)
 {
@@ -160,7 +159,8 @@ Coordinate mapIdxToRange(int i, int j, double xmin, double xmax,
     );
 }
 
-void generateImage(int imgArr[IMAGE_DIMENSION][IMAGE_DIMENSION], double xmin, double xmax, double ymin, double ymax, double *args)
+void generateImage(int imgArr[IMAGE_DIMENSION][IMAGE_DIMENSION],double xmin,
+                        double xmax, double ymin, double ymax, double *args)
 {
     for (int i = 0; i < IMAGE_DIMENSION; i++)
     {
@@ -177,16 +177,19 @@ void generateImage(int imgArr[IMAGE_DIMENSION][IMAGE_DIMENSION], double xmin, do
 
 int main()
 {
-    int imgArr[IMAGE_DIMENSION][IMAGE_DIMENSION] = {};
+    std::cout << "Beginning image generation..." << std::endl;
+    
+    auto imgArr = new int[IMAGE_DIMENSION][IMAGE_DIMENSION];
+
+    //cudaMallocManaged(&imgArr, IMAGE_DIMENSION * IMAGE_DIMENSION * sizeof(int));
 
     double args[4] = {1.0, 1.0, 1.0, 1.0};
 
-    //Coordinate c = mapIdxToRange(50, 50, -PI, PI, -PI, PI, 100);
-    //std::cout << c.x << ',' << c.y << std::endl;
-
     generateImage(imgArr, -PI, PI, -PI, PI, args);
 
-    write2dArrayToFile(imgArr, "500-test.txt");
+    write2dArrayToFile(imgArr, "1000-test.txt");
+
+    delete[] imgArr;
 
     return 0;
 }
