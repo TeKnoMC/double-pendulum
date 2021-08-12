@@ -14,30 +14,30 @@ DT = 0.05
 TMAX = 30
 
 fig, axs = plt.subplots(1, 2)
-fig.set_size_inches(20, 14)
+fig.set_size_inches(10, 7)
 
 curve_ax = axs[0]
 pendulum_ax = axs[1]
 
 arm1, = pendulum_ax.plot([], [], 'k')
 arm2, = pendulum_ax.plot([], [], 'k')
-bob1, = pendulum_ax.plot([], [], 'bo', markersize=15)
-bob2, = pendulum_ax.plot([], [], 'ro', markersize=15)
+bob1, = pendulum_ax.plot([], [], 'bo', markersize=7)
+bob2, = pendulum_ax.plot([], [], 'ro', markersize=7)
 
 t1_data, t2_data = [], []
 curve, = curve_ax.plot([], [])
 
 def frame_generator() -> Generator:
     p = DoublePendulum(L1, L2, M1, M2)
-    y0 = np.array([np.pi / 8, np.pi / 8, 0, 0])
+    y0 = np.array([3 * np.pi / 7, 3 * np.pi / 4, 0, 0])
     t, theta_1, theta_2 = p.numerical_solve_scipy(DT, TMAX, y0)
 
     for i in range(len(t)):
         yield (t[i], theta_1[i], theta_2[i])
 
 def init() -> Tuple:
-    curve_ax.set_xlim(-2 * np.pi / 8, 2 * np.pi / 8)
-    curve_ax.set_ylim(-2 * np.pi / 8, 2 * np.pi / 8)
+    curve_ax.set_xlim(-4 * np.pi, 4 * np.pi)
+    curve_ax.set_ylim(-4 * np.pi, 4 * np.pi)
     curve_ax.set_title("theta_2 against theta_1")
     curve_ax.set_xlabel("theta_1")
     curve_ax.set_ylabel("theta_2")
